@@ -16,9 +16,9 @@ pub struct Packet<'a> {
 }
 
 pub fn parse_packet<'a>(data: &'a [u8]) -> Result<Packet<'a>, ParseError> {
-    let (ethernet, post_eth_data) = parse_etherner(data)?;
-    let (ipv4, post_ipv4) = parse_ipv4(post_eth_data)?;
-    let udp = parse_udp(post_ipv4)?;
+    let (ethernet, post_ethparse_data) = parse_etherner(data)?;
+    let (ipv4, post_ipv4parse_data) = parse_ipv4(post_ethparse_data)?;
+    let udp = parse_udp(post_ipv4parse_data)?;
 
     Ok(Packet { ethernet, ipv4: Some(ipv4), udp: Some(udp), })
 }
