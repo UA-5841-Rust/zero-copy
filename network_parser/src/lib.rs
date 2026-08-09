@@ -1,7 +1,7 @@
-mod error;
-mod ethernet;
-mod ipv4;
-mod udp;
+pub mod error;
+pub mod ethernet;
+pub mod ipv4;
+pub mod udp;
 
 use error::ParseError;
 use ethernet::EthernetHeader;
