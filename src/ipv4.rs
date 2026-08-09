@@ -4,27 +4,27 @@ use crate::error::ParseError;
 pub struct Ipv4Header {
     pub version: u8,
     pub ihl: u8,
-    pub dscp_ecn: u8, 
-    pub total_length: u16, 
-    pub identification: u16, 
-    pub flags: u16, 
-    pub ttl: u8, 
+    pub dscp_ecn: u8,
+    pub total_length: u16,
+    pub identification: u16,
+    pub flags: u16,
+    pub ttl: u8,
     pub protocol: u8,
     pub header_checksum: u16,
     pub source_address: [u8; 4],
-    pub destination_address: [u8; 4], 
+    pub destination_address: [u8; 4],
 }
 
 pub fn parse_ipv4(data: &[u8]) -> Result<(Ipv4Header, &[u8]), ParseError> {
     if data.len() < 20 {
         return Err(ParseError::PacketTooShort);
     }
-    
-    let ihl = data[0] & 0x0F; 
+
+    let ihl = data[0] & 0x0F;
     if ihl < 5 {
         return Err(ParseError::InvalidIpv4HeaderLength);
     }
-    let header_len = (ihl * 4) as usize; 
+    let header_len = (ihl * 4) as usize;
 
     if data.len() < header_len {
         return Err(ParseError::PacketTooShort);
@@ -53,7 +53,6 @@ pub fn parse_ipv4(data: &[u8]) -> Result<(Ipv4Header, &[u8]), ParseError> {
         return Err(ParseError::PacketTooShort);
     }
 
-
     let header = Ipv4Header {
         version,
         ihl,
@@ -69,6 +68,6 @@ pub fn parse_ipv4(data: &[u8]) -> Result<(Ipv4Header, &[u8]), ParseError> {
     };
 
     let remaining_data = &data[header_len..(total_length as usize)];
-    
+
     Ok((header, remaining_data))
 }

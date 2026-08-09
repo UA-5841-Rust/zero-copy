@@ -1,6 +1,6 @@
 use crate::error::ParseError;
 
-pub const  ETHERNET_HEADER_LEN: usize = 14;
+pub const ETHERNET_HEADER_LEN: usize = 14;
 
 pub const ETHERTYPE_IPV4: u16 = 0x0800;
 
@@ -12,7 +12,7 @@ pub struct EthernetHeader<'a> {
 }
 
 pub fn parse_ethernet(data: &[u8]) -> Result<(EthernetHeader<'_>, &[u8]), ParseError> {
-    if data.len() < ETHERNET_HEADER_LEN  {
+    if data.len() < ETHERNET_HEADER_LEN {
         return Err(ParseError::PacketTooShort);
     }
 
@@ -23,13 +23,13 @@ pub fn parse_ethernet(data: &[u8]) -> Result<(EthernetHeader<'_>, &[u8]), ParseE
     let ether_type = u16::from_be_bytes(ether_type_bytes);
 
     if ether_type != ETHERTYPE_IPV4 {
-        return Err(ParseError::InvalidEtherType)
+        return Err(ParseError::InvalidEtherType);
     }
 
     let header = EthernetHeader {
         destination_mac,
         source_mac,
-        ether_type
+        ether_type,
     };
 
     let remaining_data = &data[ETHERNET_HEADER_LEN..];

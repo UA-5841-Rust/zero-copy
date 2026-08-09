@@ -1,16 +1,13 @@
 use std::ptr;
 use std::slice;
 
-use crate::{parse_packet, Packet};
+use crate::{Packet, parse_packet};
 
 #[allow(dead_code)]
 pub struct PacketHandle<'a>(Packet<'a>);
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn packet_parse (
-    data: *const u8,
-    len: usize,
-) -> *mut PacketHandle<'static> {
+pub unsafe extern "C" fn packet_parse(data: *const u8, len: usize) -> *mut PacketHandle<'static> {
     if data.is_null() || len == 0 {
         return ptr::null_mut();
     }

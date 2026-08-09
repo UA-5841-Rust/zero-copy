@@ -12,7 +12,7 @@ pub struct UdpPacket<'a> {
 }
 
 pub fn parse_udp(data: &[u8]) -> Result<UdpPacket<'_>, ParseError> {
-    if data.len() <UDP_HEADER_LEN {
+    if data.len() < UDP_HEADER_LEN {
         return Err(ParseError::PacketTooShort);
     }
 
@@ -31,11 +31,11 @@ pub fn parse_udp(data: &[u8]) -> Result<UdpPacket<'_>, ParseError> {
 
     let payload = &data[UDP_HEADER_LEN..(length as usize)];
 
-    Ok(UdpPacket { 
-        source_port, 
-        destination_port, 
-        length, 
-        checksum, 
+    Ok(UdpPacket {
+        source_port,
+        destination_port,
+        length,
+        checksum,
         payload,
     })
 }
