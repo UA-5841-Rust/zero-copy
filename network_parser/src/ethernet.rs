@@ -6,14 +6,14 @@ const IPV4_ETHER_TYPE: u16 = 0x0800;
 const IPV4_ETHER_TYPE_BYTES: [u8; 2] = [0x08, 0x00];
 
 #[derive(Debug)]
-pub struct EthernetHeader<'a> {
-    pub destination_mac: &'a [u8; MAC_ADDR_LEN],
-    pub source_mac: &'a [u8; MAC_ADDR_LEN],
+pub struct EthernetHeader {
+    pub destination_mac: [u8; MAC_ADDR_LEN],
+    pub source_mac: [u8; MAC_ADDR_LEN],
     pub ether_type: u16,
 }
 
-impl<'a> EthernetHeader<'a> {
-    pub fn new(frame: &'a [u8]) -> Result<(Self, &'a [u8]), ParseError> {
+impl EthernetHeader {
+    pub fn new(frame: &[u8]) -> Result<(Self, &[u8]), ParseError> {
         let (dest_mac, rest) = frame
             .split_first_chunk::<MAC_ADDR_LEN>()
             .ok_or(ParseError::PacketTooShort)?;
@@ -32,8 +32,8 @@ impl<'a> EthernetHeader<'a> {
 
         Ok((
             EthernetHeader {
-                destination_mac: dest_mac,
-                source_mac: src_mac,
+                destination_mac: *dest_mac,
+                source_mac: *src_mac,
                 ether_type: IPV4_ETHER_TYPE,
             },
             payload,
