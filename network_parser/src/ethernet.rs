@@ -13,7 +13,7 @@ pub struct EthernetHeader<'a> {
 }
 
 impl<'a> EthernetHeader<'a> {
-    pub fn new(frame: &'a [u8]) -> Result<Self, ParseError> {
+    pub fn new(frame: &'a [u8]) -> Result<(Self, &'a [u8]), ParseError> {
         let (dest_mac, rest) = frame
             .split_first_chunk::<MAC_ADDR_LEN>()
             .ok_or(ParseError::PacketTooShort)?;
@@ -22,7 +22,7 @@ impl<'a> EthernetHeader<'a> {
             .split_first_chunk::<MAC_ADDR_LEN>()
             .ok_or(ParseError::PacketTooShort)?;
 
-        let (ethertype_bytes, _) = rest
+        let (ethertype_bytes, payload) = rest
             .split_first_chunk::<ETHERNET_TYPE_LEN>()
             .ok_or(ParseError::PacketTooShort)?;
 
@@ -30,10 +30,13 @@ impl<'a> EthernetHeader<'a> {
             return Err(ParseError::InvalidEtherType);
         }
 
-        Ok(EthernetHeader {
-            destination_mac: dest_mac,
-            source_mac: src_mac,
-            ether_type: IPV4_ETHER_TYPE,
-        })
+        Ok((
+            EthernetHeader {
+                destination_mac: dest_mac,
+                source_mac: src_mac,
+                ether_type: IPV4_ETHER_TYPE,
+            },
+            payload,
+        ))
     }
 }

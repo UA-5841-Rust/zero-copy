@@ -20,7 +20,7 @@ pub fn parse_packet(data: &[u8]) -> Result<Packet<'_>, ParseError> {
         return Err(ParseError::PacketTooShort);
     }
 
-    let ethernet_header = EthernetHeader::new(data)?;
+    let (ethernet_header, _packet) = EthernetHeader::new(data)?;
 
     Ok(Packet {
         ethernet: ethernet_header,
