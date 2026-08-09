@@ -4,27 +4,30 @@ mod ipv4;
 
 use error::ParseError;
 use ethernet::EthernetHeader;
+use ipv4::Ipv4Header;
 
 const ETHERNET_HEADER_SIZE: usize = 14;
 const MIN_IPV4_HEADER_SIZE: usize = 20;
 const MIN_UDP_DATAGRAM_SIZE: usize = 8;
 const MIN_DATA_SIZE: usize = ETHERNET_HEADER_SIZE + MIN_IPV4_HEADER_SIZE + MIN_UDP_DATAGRAM_SIZE;
 
-pub struct Packet {
+pub struct Packet<'a> {
     pub ethernet: EthernetHeader,
-    // pub ipv4: Option<Ipv4Header>,
+    pub ipv4: Ipv4Header<'a>,
     // pub udp: Option<UdpPacket<'a>>,
 }
 
-pub fn parse_packet(data: &[u8]) -> Result<Packet, ParseError> {
+pub fn parse_packet(data: &[u8]) -> Result<Packet<'_>, ParseError> {
     if data.len() < MIN_DATA_SIZE {
         return Err(ParseError::PacketTooShort);
     }
 
-    let (ethernet_header, _packet) = EthernetHeader::new(data)?;
+    let (ethernet_header, packet) = EthernetHeader::new(data)?;
+    let (ipv4_header, _datagram) = Ipv4Header::new(packet)?;
 
     Ok(Packet {
         ethernet: ethernet_header,
+        ipv4: ipv4_header,
     })
 }
 
