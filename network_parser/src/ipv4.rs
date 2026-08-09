@@ -49,6 +49,18 @@ impl<'a> Ipv4Header<'a> {
             .ok_or(ParseError::InvalidIpv4HeaderLength)?;
 
         let total_length = u16::from_be_bytes([fixed_hdr[0], fixed_hdr[1]]);
+        let total_len_usize = total_length as usize;
+
+        if total_len_usize < header_len {
+            return Err(ParseError::InvalidIpv4TotalLength);
+        }
+
+        let expected_payload_len = total_len_usize - header_len;
+
+        let actual_payload = payload
+            .get(..expected_payload_len)
+            .ok_or(ParseError::InvalidIpv4TotalLength)?;
+
         let identification = u16::from_be_bytes([fixed_hdr[2], fixed_hdr[3]]);
         let flags_fragment_offset = u16::from_be_bytes([fixed_hdr[4], fixed_hdr[5]]);
         let ttl = fixed_hdr[6];
@@ -85,7 +97,7 @@ impl<'a> Ipv4Header<'a> {
                 destination_addr,
                 options,
             },
-            payload,
+            actual_payload,
         ))
     }
 }
