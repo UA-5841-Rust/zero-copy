@@ -3,7 +3,6 @@ use crate::error::ParseError;
 const MAC_ADDR_LEN: usize = 6;
 const ETHERNET_TYPE_LEN: usize = 2;
 const IPV4_ETHER_TYPE: u16 = 0x0800;
-const IPV4_ETHER_TYPE_BYTES: [u8; 2] = [0x08, 0x00];
 
 #[derive(Debug)]
 pub struct EthernetHeader {
@@ -26,7 +25,8 @@ impl EthernetHeader {
             .split_first_chunk::<ETHERNET_TYPE_LEN>()
             .ok_or(ParseError::PacketTooShort)?;
 
-        if ethertype_bytes != &IPV4_ETHER_TYPE_BYTES {
+        let ether_type = u16::from_be_bytes(*ethertype_bytes);
+        if ether_type != IPV4_ETHER_TYPE {
             return Err(ParseError::InvalidEtherType);
         }
 
@@ -34,7 +34,7 @@ impl EthernetHeader {
             EthernetHeader {
                 destination_mac: *dest_mac,
                 source_mac: *src_mac,
-                ether_type: IPV4_ETHER_TYPE,
+                ether_type,
             },
             payload,
         ))
