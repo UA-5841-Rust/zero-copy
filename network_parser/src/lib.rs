@@ -13,6 +13,7 @@ const MIN_IPV4_HEADER_SIZE: usize = 20;
 const MIN_UDP_DATAGRAM_SIZE: usize = 8;
 const MIN_DATA_SIZE: usize = ETHERNET_HEADER_SIZE + MIN_IPV4_HEADER_SIZE + MIN_UDP_DATAGRAM_SIZE;
 
+#[derive(Debug, PartialEq)]
 pub struct Packet<'a> {
     pub ethernet: EthernetHeader,
     pub ipv4: Ipv4Header<'a>,
@@ -34,6 +35,3 @@ pub fn parse_packet(data: &[u8]) -> Result<Packet<'_>, ParseError> {
         udp: udp_datagram,
     })
 }
-
-#[cfg(test)]
-mod tests {}
