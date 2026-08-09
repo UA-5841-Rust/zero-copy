@@ -1,14 +1,47 @@
 use crate::error::ParseError;
+use std::fmt;
 
 const MAC_ADDR_LEN: usize = 6;
 const ETHERNET_TYPE_LEN: usize = 2;
 const IPV4_ETHER_TYPE: u16 = 0x0800;
 
-#[derive(Debug)]
+#[derive(PartialEq)]
 pub struct EthernetHeader {
     pub destination_mac: [u8; MAC_ADDR_LEN],
     pub source_mac: [u8; MAC_ADDR_LEN],
     pub ether_type: u16,
+}
+
+impl fmt::Debug for EthernetHeader {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("EthernetHeader")
+            .field(
+                "destination_mac",
+                &format_args!(
+                    "{:02x}:{:02x}:{:02x}:{:02x}:{:02x}:{:02x}",
+                    self.destination_mac[0],
+                    self.destination_mac[1],
+                    self.destination_mac[2],
+                    self.destination_mac[3],
+                    self.destination_mac[4],
+                    self.destination_mac[5]
+                ),
+            )
+            .field(
+                "source_mac",
+                &format_args!(
+                    "{:02x}:{:02x}:{:02x}:{:02x}:{:02x}:{:02x}",
+                    self.source_mac[0],
+                    self.source_mac[1],
+                    self.source_mac[2],
+                    self.source_mac[3],
+                    self.source_mac[4],
+                    self.source_mac[5]
+                ),
+            )
+            .field("ether_type", &format_args!("{:#06x}", self.ether_type))
+            .finish()
+    }
 }
 
 impl EthernetHeader {
