@@ -2,6 +2,7 @@ use crate::error::ParseError;
 
 const MIN_UDP_HEADER_SIZE: usize = 8;
 
+#[derive(Debug, PartialEq)]
 pub struct UdpDatagram<'a> {
     pub source_port: u16,
     pub destination_port: u16,

@@ -6,6 +6,7 @@ const MIN_IHL_VALUE: u8 = 5;
 const IHL_WORD: usize = 4;
 const UDP_PROTOCOL: u8 = 0x11;
 
+#[derive(Debug, PartialEq)]
 pub struct Ipv4Header<'a> {
     pub version: u8,
     pub ihl: u8,
