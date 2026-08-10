@@ -3,8 +3,8 @@ use crate::error::ParseError;
 const MIN_UDP_HEADER_SIZE: usize = 8;
 
 /// Represents a UDP datagram.
-/// 
-/// Contains the source/destination ports, length, checksum, and a 
+///
+/// Contains the source/destination ports, length, checksum, and a
 /// zero-copy reference to the UDP payload data.
 #[derive(Debug, PartialEq)]
 pub struct UdpDatagram<'a> {
@@ -17,9 +17,9 @@ pub struct UdpDatagram<'a> {
 
 impl<'a> UdpDatagram<'a> {
     /// Parses a UDP datagram from a raw byte slice.
-    /// 
-    /// Extracts the UDP header fields and returns a `UdpDatagram` containing 
-    /// a slice that points directly to the payload. Returns an error if the 
+    ///
+    /// Extracts the UDP header fields and returns a `UdpDatagram` containing
+    /// a slice that points directly to the payload. Returns an error if the
     /// datagram length is invalid or truncated.
     pub fn new(datagram: &'a [u8]) -> Result<Self, ParseError> {
         let (header, rest_payload) = datagram

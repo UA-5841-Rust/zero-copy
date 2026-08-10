@@ -7,7 +7,7 @@ const IHL_WORD: usize = 4;
 const UDP_PROTOCOL: u8 = 0x11;
 
 /// Represents an IPv4 packet header.
-/// 
+///
 /// Contains standard IPv4 fields and a zero-copy reference to any IP options.
 #[derive(Debug, PartialEq)]
 pub struct Ipv4Header<'a> {
@@ -27,8 +27,8 @@ pub struct Ipv4Header<'a> {
 
 impl<'a> Ipv4Header<'a> {
     /// Parses an IPv4 header from a raw byte slice.
-    /// 
-    /// Validates the IP version, header length, and total length. 
+    ///
+    /// Validates the IP version, header length, and total length.
     /// Returns a tuple containing the parsed `Ipv4Header` and a slice pointing
     /// to the underlying transport payload.
     pub fn new(packet: &'a [u8]) -> Result<(Self, &'a [u8]), ParseError> {

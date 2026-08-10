@@ -15,7 +15,7 @@ pub struct EthernetHeader {
 
 impl EthernetHeader {
     /// Parses an Ethernet II header from a raw byte slice.
-    /// 
+    ///
     /// Returns a tuple containing the parsed `EthernetHeader` and a slice pointing
     /// to the remaining payload, or a `ParseError` if the frame is invalid or too short.
     pub fn new(frame: &[u8]) -> Result<(Self, &[u8]), ParseError> {
