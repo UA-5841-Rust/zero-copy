@@ -1,5 +1,4 @@
 use crate::error::ParseError;
-use std::fmt;
 
 const MAC_ADDR_LEN: usize = 6;
 const ETHERNET_TYPE_LEN: usize = 2;
