@@ -34,7 +34,7 @@ fn test_packet_too_short() {
 #[test]
 fn test_invalid_ethertype() {
     let mut invalid_frame = VALID_FRAME.to_vec();
-    
+
     // ipv4 -> arp
     invalid_frame[12] = 0x08;
     invalid_frame[13] = 0x06;

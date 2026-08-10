@@ -29,6 +29,8 @@ pub struct CIpv4Header {
 pub struct CUdpPacket {
     pub source_port: u16,
     pub destination_port: u16,
+    pub length: u16,
+    pub checksum: u16,
     pub payload: *const c_uchar,
     pub payload_len: usize,
 }
@@ -40,6 +42,14 @@ pub struct PacketHandle {
     pub udp: CUdpPacket,
 }
 
+/// Parses a raw network packet from a byte buffer into a C-compatible packet structure.
+///
+/// # Safety
+///
+/// - `data` must be a valid, readable pointer to at least `len` bytes, or `NULL`.
+/// - The memory region pointed to by `data` must remain valid and unmodified for the entire
+///   lifetime of the returned `PacketHandle`.
+/// - `len` must accurately reflect the size of the buffer at `data`.
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn packet_parse(data: *const u8, len: usize) -> *mut PacketHandle {
     if data.is_null() || len == 0 {
@@ -81,6 +91,8 @@ pub unsafe extern "C" fn packet_parse(data: *const u8, len: usize) -> *mut Packe
                 udp: CUdpPacket {
                     source_port: parsed_packet.udp.source_port,
                     destination_port: parsed_packet.udp.destination_port,
+                    length: parsed_packet.udp.length,
+                    checksum: parsed_packet.udp.checksum,
 
                     payload: if parsed_packet.udp.payload.is_empty() {
                         std::ptr::null()
@@ -98,6 +110,13 @@ pub unsafe extern "C" fn packet_parse(data: *const u8, len: usize) -> *mut Packe
     }
 }
 
+/// Frees the memory allocated for a `PacketHandle`.
+///
+/// # Safety
+///
+/// - `handle` must be a pointer previously allocated by `packet_parse`, or `NULL`.
+/// - `handle` must not have been previously freed (avoids double-free).
+/// - The pointer must not be dereferenced after this call.
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn packet_free(handle: *mut PacketHandle) {
     if !handle.is_null() {

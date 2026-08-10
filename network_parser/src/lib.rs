@@ -1,8 +1,8 @@
 pub mod error;
 pub mod ethernet;
+pub mod ffi;
 pub mod ipv4;
 pub mod udp;
-pub mod ffi;
 
 use error::ParseError;
 use ethernet::EthernetHeader;
@@ -14,6 +14,8 @@ const MIN_IPV4_HEADER_SIZE: usize = 20;
 const MIN_UDP_DATAGRAM_SIZE: usize = 8;
 const MIN_DATA_SIZE: usize = ETHERNET_HEADER_SIZE + MIN_IPV4_HEADER_SIZE + MIN_UDP_DATAGRAM_SIZE;
 
+/// A fully parsed network packet containing Ethernet, IPv4, and UDP layers.
+/// This structure borrows from the original byte slice to ensure zero-copy parsing.
 #[derive(Debug, PartialEq)]
 pub struct Packet<'a> {
     pub ethernet: EthernetHeader,
@@ -21,6 +23,7 @@ pub struct Packet<'a> {
     pub udp: UdpDatagram<'a>,
 }
 
+/// Parses an Ethernet/IPv4/UDP packet without copying its payload.
 pub fn parse_packet(data: &[u8]) -> Result<Packet<'_>, ParseError> {
     if data.len() < MIN_DATA_SIZE {
         return Err(ParseError::PacketTooShort);
