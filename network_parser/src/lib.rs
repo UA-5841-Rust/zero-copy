@@ -2,6 +2,7 @@ pub mod error;
 pub mod ethernet;
 pub mod ipv4;
 pub mod udp;
+pub mod ffi;
 
 use error::ParseError;
 use ethernet::EthernetHeader;
