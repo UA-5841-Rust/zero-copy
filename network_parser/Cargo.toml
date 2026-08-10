@@ -1,0 +1,9 @@
+[package]
+name = "network_parser"
+version = "0.1.0"
+edition = "2024"
+[lib]
+name = "network_parser"
+crate-type = ["rlib", "staticlib", "cdylib"]
+
+[dependencies]
