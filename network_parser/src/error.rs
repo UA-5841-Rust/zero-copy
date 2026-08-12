@@ -6,4 +6,5 @@ pub enum ParseError {
     InvalidIpv4HeaderLength,
     InvalidIpv4TotalLength,
     InvalidUdpLength,
+    UnsupportedProtocol,
 }
