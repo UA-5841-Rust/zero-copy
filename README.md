@@ -630,42 +630,42 @@ Before requesting a review, verify:
 
 ### Functionality
 
-* [ ] Ethernet parsing works.
-* [ ] IPv4 parsing works.
-* [ ] IPv4 options are supported.
-* [ ] UDP parsing works.
-* [ ] UDP payload is returned correctly.
-* [ ] Malformed packets return errors.
-* [ ] Parser does not panic.
+* [x] Ethernet parsing works.
+* [x] IPv4 parsing works.
+* [x] IPv4 options are supported.
+* [x] UDP parsing works.
+* [x] UDP payload is returned correctly.
+* [x] Malformed packets return errors.
+* [x] Parser does not panic.
 
 ### Memory
 
-* [ ] Payload is not copied.
-* [ ] No unnecessary heap allocations are used.
-* [ ] Lifetimes are used correctly.
-* [ ] Ownership is clearly defined.
+* [x] Payload is not copied.
+* [x] No unnecessary heap allocations are used.
+* [x] Lifetimes are used correctly.
+* [x] Ownership is clearly defined.
 
 ### Safety
 
-* [ ] Core parser uses safe Rust.
-* [ ] Unsafe code is limited to the FFI boundary.
-* [ ] Raw pointers are validated.
-* [ ] FFI ownership rules are documented.
+* [x] Core parser uses safe Rust.
+* [x] Unsafe code is limited to the FFI boundary.
+* [x] Raw pointers are validated.
+* [x] FFI ownership rules are documented.
 
 ### Testing
 
-* [ ] Valid packets are tested.
-* [ ] Invalid packets are tested.
-* [ ] Edge cases are tested.
-* [ ] Zero-copy behavior is tested.
+* [x] Valid packets are tested.
+* [x] Invalid packets are tested.
+* [x] Edge cases are tested.
+* [x] Zero-copy behavior is tested.
 
 ### Quality
 
-* [ ] `cargo fmt --check` passes.
-* [ ] `cargo clippy` passes.
-* [ ] `cargo test` passes.
-* [ ] Public APIs are documented.
-* [ ] README is complete.
+* [x] `cargo fmt --check` passes.
+* [x] `cargo clippy` passes.
+* [x] `cargo test` passes.
+* [x] Public APIs are documented.
+* [x] README is complete.
 
 ---
 
@@ -802,15 +802,15 @@ The existing Pull Request should be updated automatically when you push new comm
 
 The assignment is complete when:
 
-* [ ] All functional requirements are implemented.
-* [ ] All required tests pass.
-* [ ] Zero-copy behavior is demonstrated.
-* [ ] Unsafe code is isolated and justified.
-* [ ] C FFI works.
-* [ ] Documentation is complete.
-* [ ] `cargo fmt --check` passes.
-* [ ] `cargo clippy` passes.
-* [ ] `cargo test` passes.
+* [x] All functional requirements are implemented.
+* [x] All required tests pass.
+* [x] Zero-copy behavior is demonstrated.
+* [x] Unsafe code is isolated and justified.
+* [x] C FFI works.
+* [x] Documentation is complete.
+* [x] `cargo fmt --check` passes.
+* [x] `cargo clippy` passes.
+* [x] `cargo test` passes.
 * [ ] Pull Request is created against `main`.
 * [ ] Mentor review is completed.
 * [ ] All review comments are resolved.
