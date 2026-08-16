@@ -811,7 +811,7 @@ The assignment is complete when:
 * [x] `cargo fmt --check` passes.
 * [x] `cargo clippy` passes.
 * [x] `cargo test` passes.
-* [ ] Pull Request is created against `main`.
+* [x] Pull Request is created against `main`.
 * [ ] Mentor review is completed.
 * [ ] All review comments are resolved.
 * [ ] Pull Request is approved.
