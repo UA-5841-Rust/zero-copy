@@ -19,7 +19,7 @@ pub struct UdpPacket<'a> {
 
 impl UdpPacket<'_> {
     /// UDP header size in bytes.
-    pub const HEADER_SIZE: usize = 8;
+    const HEADER_SIZE: usize = 8;
 }
 
 /// Parses a UDP header + payload from `data`.
